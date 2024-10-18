@@ -65,4 +65,50 @@ export const userAuthStore = create((set) => ({
       throw error;
     }
   },
+
+  update: async (name, newEmail, oldPassword, newPassword) => {
+    set({ error: null });
+
+    console.log('Data being sent:', {
+      name,
+      newEmail,
+      oldPassword,
+      newPassword,
+    });
+    try {
+      // Retrieve token from localStorage
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        throw new Error('User is not authenticated');
+      }
+
+      const response = await axios.put(
+        `${API_URL}/update`, // Assuming your API endpoint is '/auth/update'
+        {
+          name,
+          newEmail,
+          oldPassword,
+          newPassword,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+        }
+      );
+
+      console.log('Response:', response);
+
+      // Update the user state after successful update
+      set({ user: response.data.user });
+
+      return response;
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || 'Error updating credentials',
+      });
+      throw error;
+    }
+  },
 }));

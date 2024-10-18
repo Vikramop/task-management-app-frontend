@@ -26,7 +26,7 @@ const SignIn = () => {
   const navigate = useNavigate();
 
   const handleRedirect = () => {
-    navigate('/login'); // Redirects to the login/sign-in page
+    navigate('/login');
   };
 
   const { signup } = userAuthStore();
@@ -52,11 +52,9 @@ const SignIn = () => {
     } catch (err) {
       console.error(err);
 
-      // Handle the error directly from the API response
       const errorMessage =
         err.response?.data?.message || 'Sign-up failed. Please try again.';
 
-      // Show the error message using toast
       toast.error(errorMessage);
     }
   };

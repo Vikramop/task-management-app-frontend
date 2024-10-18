@@ -18,11 +18,11 @@ const LogIn = () => {
   const navigate = useNavigate();
 
   const handleRedirect = () => {
-    navigate('/'); // Redirects to the login/sign-in page
+    navigate('/');
   };
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-  const { login, error } = userAuthStore();
+  const { login } = userAuthStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -37,10 +37,8 @@ const LogIn = () => {
     } catch (err) {
       console.log('error', err);
 
-      // Get the error message from the API response or default message
       const errorMessage = err.response?.data?.message || 'Invalid credentials';
 
-      // Show the error message using toast
       toast.error(errorMessage);
     }
   };

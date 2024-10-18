@@ -6,6 +6,9 @@ import cube from '../assets/cube.png';
 import Logout from '../assets/Logout.png';
 import './dashboard.css';
 import toast from 'react-hot-toast';
+import Board from '../components/Board';
+import Analytics from '../components/Analytics';
+import Settings from '../components/Settings';
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('board'); // Track the active tab
@@ -150,9 +153,9 @@ const Dashboard = () => {
 
       {/* Right Content */}
       <div className="dash-right">
-        {activeTab === 'board' && <div>Board Content</div>}
-        {activeTab === 'analytics' && <div>Analytics Content</div>}
-        {activeTab === 'settings' && <div>Settings Content</div>}
+        {activeTab === 'board' && <Board />}
+        {activeTab === 'analytics' && <Analytics />}
+        {activeTab === 'settings' && <Settings />}
       </div>
     </div>
   );
