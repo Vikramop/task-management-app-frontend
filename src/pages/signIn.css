@@ -1,0 +1,165 @@
+.login-container {
+  display: flex;
+}
+
+.left-side-login {
+  width: 60%;
+  height: 100vh;
+  background-color: #17a2b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.right-side-login {
+  width: 40%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-img {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle {
+  position: absolute;
+  z-index: 0;
+  width: 230px;
+  top: -2.5rem;
+}
+
+.bot {
+  position: relative;
+  z-index: 1;
+  width: 200px;
+}
+
+.login-h {
+  margin-top: 20px;
+  font-size: 2rem;
+  font-weight: 500;
+  color: white;
+}
+.login-p {
+  font-size: 1rem;
+  color: white;
+  text-align: center;
+}
+
+/* ////////////////////////////////////// */
+.register {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.form {
+  width: 100%;
+  max-width: 400px; /* Set a maximum width for the form */
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.input-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* The input fields */
+.input-field {
+  width: 100%;
+  padding: 10px 40px 10px 40px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.input-field:focus {
+  border-color: #17a2b8;
+}
+
+/* Left Icon */
+.icon-left {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+}
+
+.icon-left img {
+  width: 100%;
+  height: 100%;
+}
+
+/* Right Icon */
+.icon-right {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.icon-right img {
+  width: 100%;
+  height: 100%;
+}
+
+/* Submit Button */
+.submit-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #17a2b8;
+  border: none;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 30px;
+  transition: background-color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #05c7e4;
+}
+
+/* empty Button */
+.empty-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #17a2b8;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 30px;
+  color: #17a2b8;
+  transition: background-color 0.3s;
+}
+
+.empty-button:hover {
+  background-color: #17a2b8;
+  color: whitesmoke;
+}
+
+.account {
+  text-align: center;
+  color: #828282;
+  font-size: 16px;
+}

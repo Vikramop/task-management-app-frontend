@@ -1,0 +1,90 @@
+.dash-container {
+  display: flex;
+}
+
+.dash-left {
+  width: 15%;
+  height: 100vh;
+  border-right: 1px solid #deecfc;
+  /* background: #b1b1b1; */
+  /* padding: 10px; */
+}
+
+.dash-right {
+  width: 85%;
+  height: 100vh;
+  /* background: #b86464; */
+}
+
+.dash-left1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.dash-left1 p {
+  font-weight: 600;
+  /* height: 10vh; */
+}
+
+.tabs-container {
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.tabs {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* padding: 20px; */
+}
+
+.tab-item {
+  width: 100%;
+  padding: 10px 0 10px 6rem;
+  display: flex;
+  gap: 10px;
+  align-items: start;
+  justify-content: left;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.tab-item p {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.tab-item.active svg,
+.tab-item.active p {
+  color: black;
+}
+
+.active {
+  background: #4391ed1a;
+}
+
+.dash-right {
+  flex-grow: 1;
+  /* padding: 20px; */
+}
+
+.logout-sec {
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  gap: 10;
+}
+
+.logout-sec p {
+  margin-left: 10px;
+  color: #cf3636;
+}
