@@ -7,3 +7,47 @@
   font-weight: 700;
   margin-left: 20px;
 }
+
+/* ///////////////////////////////////////////// */
+.tasks {
+  display: flex;
+  gap: 30px;
+}
+
+.task-summary {
+  background: #f9fcff;
+  width: 350px;
+  padding: 40px 30px;
+  border: none;
+  border-radius: 6px;
+  margin-top: 40px;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.task-category-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.task-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #90c4cc;
+  margin-right: 8px;
+}
+
+.task-category {
+  font-size: 18px;
+}
+
+.task-count {
+  margin-left: auto;
+  font-weight: 600;
+  font-size: 18px;
+}

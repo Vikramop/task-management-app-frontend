@@ -111,4 +111,31 @@ export const userAuthStore = create((set) => ({
       throw error;
     }
   },
+
+  fetchUser: async () => {
+    set({ error: null });
+    try {
+      // Retrieve the token from local storage or wherever it's stored
+      const token = localStorage.getItem('token');
+
+      // Send a request to the API to fetch user data
+      const response = await axios.get(`${API_URL}/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log('Fetched User Data:', response.data.user);
+
+      // Set the user data in state
+      set({ user: response.data.user });
+
+      return response;
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || 'Error fetching user data',
+      });
+      throw error;
+    }
+  },
 }));
