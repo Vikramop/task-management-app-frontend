@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
+import { userAuthStore } from '../../store/authStore.js';
 import './style.css';
 import '../pages/signIn.css';
 import eye from '../assets/eye.png';
 import lock from '../assets/lock.png';
 import maill from '../assets/maill.png';
 import person from '../assets/person.png';
-import { userAuthStore } from '../../store/authStore.js';
-import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
   const { update, fetchUser, logout } = userAuthStore();
@@ -25,13 +25,17 @@ const Settings = () => {
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const userData = await fetchUser();
-        console.log('Fetched User Data:', userData);
+        const userData = await toast.promise(fetchUser(), {
+          loading: 'Loading user data...',
+          success: 'User data loaded successfully!',
+          error: 'Error fetching user data',
+        });
+
         setName(userData.data.user.name || '');
         setNewEmail(userData.data.user.email || '');
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching user data:', error);
+      } finally {
         setLoading(false);
       }
     };

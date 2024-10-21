@@ -1,0 +1,223 @@
+.task-container {
+  display: inline-flex;
+  gap: 20px;
+  /* overflow-x: auto; */
+}
+
+.task-box {
+  width: 300px;
+  height: 70vh;
+  background: #eef2f5;
+  margin-top: 20px;
+  border: none;
+  border-radius: 8px;
+  padding: 20px;
+
+  flex-shrink: 0;
+}
+
+.task-h {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.task-box-up {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.task-box-up img {
+  cursor: pointer;
+}
+
+.create-task {
+  display: flex;
+  gap: 15px;
+}
+
+/* //////////////////////////////////////// */
+/* Task Card */
+.task-card {
+  width: 90%;
+  background: #ffffff;
+  border: none;
+  border-radius: 15px;
+  padding: 20px 15px;
+  margin: 10px 0;
+}
+
+.task-card-priority-h {
+  color: #707070;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.task-category-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.task-card-assigne {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #ffebeb;
+  margin-left: 8px;
+  font-size: 8px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-card-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #90c4cc;
+  margin-right: 8px;
+}
+
+.task-card-upper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-card-h {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 5px 0;
+}
+
+.task-card-lower {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-card-due {
+  font-size: 9px;
+  width: fit-content;
+  padding: 4px 8px;
+  background: #dbdbdb;
+  border: none;
+  border-radius: 10px;
+  color: #5a5a5a;
+}
+
+.task-card-priorities {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.task-card-priority {
+  font-size: 9px;
+  width: fit-content;
+  padding: 4px 8px;
+  background: #eeecec;
+  border: none;
+  border-radius: 10px;
+  color: #5a5a5a;
+}
+
+/* checklist */
+.dropdown {
+  position: relative;
+  margin: 15px 0;
+
+  /* width: 200px; */
+}
+
+.checklist {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: 500;
+
+  /* background: #f3aaaa; */
+}
+
+.dropdown-button {
+  background-color: #eeecec;
+  border: none;
+  border-radius: 4px;
+  padding: 1px 4px;
+
+  cursor: pointer;
+}
+
+.arrow {
+  transition: transform 0.2s;
+}
+
+.arrow.down {
+  transform: rotate(0deg);
+}
+
+.arrow.up {
+  transform: rotate(180deg);
+}
+
+.options {
+  position: relative;
+  background-color: white;
+  width: 100%;
+  margin: 5px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+  padding: 10px;
+  cursor: pointer;
+  border: 2px solid #e2e2e2;
+  border-radius: 10px;
+}
+
+input[type='checkbox'] {
+  display: none;
+}
+/* input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e2e2e2;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type='checkbox']:checked {
+  background-color: black;
+} */
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e2e2e2;
+  display: inline-block;
+  margin-right: 10px;
+  position: relative;
+  border-radius: 8px;
+}
+
+.checkbox.checked {
+  background-color: #17a2b8; /* Background color when checked */
+}
+
+.checkbox.checked::after {
+  content: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="%23fff" viewBox="0 0 16 16"%3E%3Cpath fill-rule="evenodd" d="M12.293 4.293a1 1 0 011.414 1.414l-7 7a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414L6 10.586l6.293-6.293z" clip-rule="evenodd"/%3E%3C/svg%3E');
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 15px;
+  height: 15px;
+}
+
+.option p {
+  font-size: 14px;
+  width: 80%;
+}
