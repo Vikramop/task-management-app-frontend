@@ -284,18 +284,13 @@ input[type='checkbox']:checked {
 }
 
 .option-menu-o:hover {
-  background-color: rgba(0, 0, 0, 0.05); /* Light background on hover */
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .delete {
-  color: red; /* Red color for delete option */
+  color: red;
 }
 
 .delete:hover {
-  background-color: rgba(
-    255,
-    0,
-    0,
-    0.1
-  ); /* Slightly different background for delete on hover */
+  background-color: rgba(255, 0, 0, 0.1);
 }
