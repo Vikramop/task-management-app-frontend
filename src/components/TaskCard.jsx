@@ -1,23 +1,35 @@
-import React, { useState } from 'react';
-import dots from '../assets/3dots.svg';
-import down from '../assets/down.svg';
+import React, { useEffect, useState } from 'react';
 
-const TaskCard = () => {
+import down from '../assets/down.svg';
+import OptionsMenu from './OptionsMenu';
+
+const TaskCard = ({ isCollapsed }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTasks, setSelectedTasks] = useState([]);
   const options = ['Task 1', 'Task 2', 'Task 3'];
 
+  // Effect to handle collapsing and opening states
+  useEffect(() => {
+    if (isCollapsed) {
+      setIsOpen(false);
+    }
+  }, [isCollapsed]);
+
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    if (!isCollapsed) {
+      // Only toggle if not collapsed
+      setIsOpen((prevState) => !prevState);
+    }
   };
 
   const handleCheckboxChange = (option) => {
-    setSelectedTasks((prev) =>
-      prev.includes(option)
-        ? prev.filter((task) => task !== option)
-        : [...prev, option]
-    );
+    if (selectedTasks.includes(option)) {
+      setSelectedTasks(selectedTasks.filter((task) => task !== option));
+    } else {
+      setSelectedTasks([...selectedTasks, option]);
+    }
   };
+
   return (
     <div className="task-card">
       <div className="task-card-upper">
@@ -26,22 +38,23 @@ const TaskCard = () => {
           <p className="task-card-priority-h">LOW PRIORITY</p>
           <span className="task-card-assigne">VK</span>
         </div>
-        <img src={dots} alt="" />
+        <OptionsMenu />
       </div>
       <p className="task-card-h">Hero section</p>
 
-      {/* checklist sec */}
-
+      {/* Checklist Dropdown */}
       <div className="dropdown">
-        <div className="checklist">
+        <div className="checklist" onClick={toggleDropdown}>
           Checklist ({selectedTasks.length}/{options.length})
-          <button className="dropdown-button" onClick={toggleDropdown}>
+          <button className="dropdown-button">
             <img
               className={`arrow ${isOpen ? 'up' : 'down'}`}
               src={isOpen ? down : down}
+              alt="Toggle dropdown"
             />
           </button>
         </div>
+
         {isOpen && (
           <div className="options">
             {options.map((option) => (
@@ -63,6 +76,7 @@ const TaskCard = () => {
         )}
       </div>
 
+      {/* Task Card Lower Section */}
       <div className="task-card-lower">
         <div className="task-card-due">
           <p>Feb 10th</p>

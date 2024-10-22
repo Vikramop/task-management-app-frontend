@@ -1,0 +1,42 @@
+.modal-container {
+  position: fixed;
+  inset: 0;
+  background-color: #303d438c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.task-modal {
+  background: #fff;
+  height: 400px;
+  width: 550px;
+  border: none;
+  border-radius: 20px;
+  padding: 1.5rem 1.5rem;
+  margin: auto;
+  z-index: 1001;
+}
+
+.input-container {
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.required {
+  color: red;
+}
+
+input[type='text'] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

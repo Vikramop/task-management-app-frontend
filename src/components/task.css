@@ -12,10 +12,34 @@
   border: none;
   border-radius: 8px;
   padding: 20px;
-
+  overflow-y: auto;
   flex-shrink: 0;
 }
 
+/* scroll bar */
+
+.task-box::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+.task-box::-webkit-scrollbar-track {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #d6eaf4;
+}
+
+/* Handle */
+.task-box::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 0px;
+  border-radius: 10px;
+  background: #9cb7c5;
+}
+.task-box::-webkit-scrollbar-thumb:window-inactive {
+  background: #9cb7c5;
+}
+/* //////////////////////////////////// */
 .task-h {
   font-size: 16px;
   font-weight: 500;
@@ -35,10 +59,14 @@
   gap: 15px;
 }
 
+/* .main-box {
+  overflow: hidden;
+} */
+
 /* //////////////////////////////////////// */
 /* Task Card */
 .task-card {
-  width: 90%;
+  width: 89%;
   background: #ffffff;
   border: none;
   border-radius: 15px;
@@ -220,4 +248,54 @@ input[type='checkbox']:checked {
 .option p {
   font-size: 14px;
   width: 80%;
+}
+
+.task-card-overflow {
+  overflow-y: auto;
+}
+
+/* //////////////////////////////////////// */
+.options-menu-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.options-menu {
+  position: absolute;
+  width: 150px;
+  height: 90px;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  z-index: 10;
+  margin-top: 5px;
+  padding: 10px 0;
+}
+
+.option-menu-o {
+  padding: 4px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  /* border: none; */
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.option-menu-o:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* Light background on hover */
+}
+
+.delete {
+  color: red; /* Red color for delete option */
+}
+
+.delete:hover {
+  background-color: rgba(
+    255,
+    0,
+    0,
+    0.1
+  ); /* Slightly different background for delete on hover */
 }

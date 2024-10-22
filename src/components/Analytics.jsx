@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.css';
+import CreateTask from '../modals/CreateTask';
 
 const Analytics = () => {
   const tasksData1 = [
@@ -16,6 +17,7 @@ const Analytics = () => {
   ];
   return (
     <div className="setting-contianer">
+      <CreateTask />
       <p className="settings-h">Analytics</p>
       <div className="tasks">
         <div className="task-summary">
