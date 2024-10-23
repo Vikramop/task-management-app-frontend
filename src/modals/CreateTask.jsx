@@ -2,74 +2,79 @@ import React, { useState } from 'react';
 import './modals.css';
 import del from '../assets/del.svg';
 import DueDate from './../components/DueDate';
+import { userTaskStore } from '../../store/taskStore';
+import toast from 'react-hot-toast';
 
-const CreateTask = () => {
-  const [selectedPriority, setSelectedPriority] = useState('');
-  const [selectedTasks, setSelectedTasks] = useState([]);
+const CreateTask = ({ onClose }) => {
+  const { createTask } = userTaskStore();
 
+  const [title, setTitle] = useState('');
+  const [selectedPriority, setSelectedPriority] = useState('low');
+  const [assignee, setAssignee] = useState('');
+  const [checklist, setChecklist] = useState([{ text: '', completed: false }]);
+  const [dueDate, setDueDate] = useState(null);
+
+  // Handle adding new checklist items
+  const handleAddNewTask = () => {
+    setChecklist([...checklist, { text: '', completed: false }]);
+  };
+
+  // Handle updating checklist items
+  const handleTaskChange = (index, value) => {
+    const newChecklist = [...checklist];
+    newChecklist[index].text = value;
+    setChecklist(newChecklist);
+  };
+
+  // Handle checkbox toggle
+  const handleTaskCompleteToggle = (index) => {
+    const newChecklist = [...checklist];
+    newChecklist[index].completed = !newChecklist[index].completed;
+    setChecklist(newChecklist);
+  };
+
+  // Handle task deletion
+  const handleTaskDelete = (index) => {
+    const newChecklist = checklist.filter((_, i) => i !== index);
+    setChecklist(newChecklist);
+  };
+
+  // Handle priority selection
   const handlePrioritySelect = (priority) => {
     setSelectedPriority(priority);
   };
 
-  const [checklist, setChecklist] = useState([]);
-  const [newTaskText, setNewTaskText] = useState('');
-
-  const handleAddNewTask = () => {
-    setChecklist([...checklist, { text: newTaskText, completed: false }]);
-    setNewTaskText(''); // Reset input after adding
-  };
-  const handleCheckboxChange = (option) => {
-    if (selectedTasks.includes(option)) {
-      setSelectedTasks(selectedTasks.filter((task) => task !== option));
-    } else {
-      setSelectedTasks([...selectedTasks, option]);
+  // Handle form submission
+  const handleSaveTask = async () => {
+    try {
+      await createTask(title, checklist, dueDate, selectedPriority, assignee); // Category is set as default, can be changed
+      toast.success('Task created successfully!');
+      onClose(); // Close the modal after saving
+    } catch (err) {
+      const errorMessage = err.response?.data?.message || 'Error creating task';
+      toast.error(errorMessage);
     }
-  };
-
-  const handleTaskChange = (index, newText) => {
-    const updatedChecklist = checklist.map((task, i) =>
-      i === index ? { ...task, text: newText } : task
-    );
-    setChecklist(updatedChecklist);
-  };
-
-  const handleTaskCompleteToggle = (index) => {
-    const updatedChecklist = checklist.map((task, i) =>
-      i === index ? { ...task, completed: !task.completed } : task
-    );
-    setChecklist(updatedChecklist);
-
-    // Update the selectedTasks based on the completed status
-    if (updatedChecklist[index].completed) {
-      setSelectedTasks([...selectedTasks, updatedChecklist[index]]);
-    } else {
-      setSelectedTasks(selectedTasks.filter((_, i) => i !== index));
-    }
-  };
-
-  const handleTaskDelete = (index) => {
-    const updatedChecklist = checklist.filter((_, i) => i !== index);
-    setChecklist(updatedChecklist);
-
-    // Update selectedTasks array after task deletion
-    const updatedSelectedTasks = selectedTasks.filter(
-      (_, i) => i !== index // Remove the corresponding task from selectedTasks
-    );
-    setSelectedTasks(updatedSelectedTasks);
   };
 
   return (
     <div className="modal-container">
       <div className="task-modal">
-        <form className="form-fields">
+        <form className="form-fields" onSubmit={(e) => e.preventDefault()}>
           <div className="input-container">
             <label htmlFor="title" className="label">
               Title <span className="required">*</span>
             </label>
-            <input type="text" name="heading" placeholder="Enter Task Title" />
+            <input
+              className="title"
+              type="text"
+              name="heading"
+              placeholder="Enter Task Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
           </div>
-          {/* priority */}
 
+          {/* Priority Selection */}
           <div className="priority-options">
             <label className="label">
               Select Priority <span className="required">*</span>
@@ -103,26 +108,31 @@ const CreateTask = () => {
             </div>
           </div>
 
-          {/* assign */}
-          <div className="asignee-container">
+          {/* Assignee Input */}
+          <div className="assignee-container">
             <label htmlFor="assignee" className="label-assign">
               Assign to
             </label>
-            <input type="email" name="assignee" placeholder="Add a assignee" />
+            <input
+              className="assign"
+              type="email"
+              name="assignee"
+              placeholder="Add an assignee"
+              value={assignee}
+              onChange={(e) => setAssignee(e.target.value)}
+            />
           </div>
 
-          {/* checklist */}
+          {/* Checklist */}
           <div className="checklist-container">
             <label className="label">
-              Checklist ({selectedTasks.length}/{checklist.length})
-              <span className="required">*</span>
+              Checklist ({checklist.filter((task) => task.text).length}/
+              {checklist.length})<span className="required">*</span>
             </label>
             <div className="overflow-sec">
-              {/* Render each task in the checklist */}
               {checklist.map((task, index) => (
                 <div key={index} className="checklist-item">
                   <label className="option">
-                    {/* Checkbox */}
                     <input
                       type="checkbox"
                       checked={task.completed}
@@ -131,7 +141,6 @@ const CreateTask = () => {
                     <span
                       className={`checkbox ${task.completed ? 'checked' : ''}`}
                     ></span>
-                    {/* Task Input */}
                     <input
                       type="text"
                       className="diff-input"
@@ -140,7 +149,6 @@ const CreateTask = () => {
                       placeholder="Enter task"
                     />
                   </label>
-                  {/* Delete Button */}
                   <button
                     className="delete-task-btn"
                     onClick={() => handleTaskDelete(index)}
@@ -149,8 +157,6 @@ const CreateTask = () => {
                   </button>
                 </div>
               ))}
-
-              {/* Input for new task */}
               <div className="add-new-task">
                 <p className="add-task-btn" onClick={handleAddNewTask}>
                   + Add New
@@ -159,13 +165,17 @@ const CreateTask = () => {
             </div>
           </div>
 
-          {/* last sec */}
+          {/* Last Section */}
           <div className="task-modal-last">
-            <DueDate />
-
+            <DueDate onDueDateChange={setDueDate} />{' '}
+            {/* Passing state to DueDate component */}
             <div className="task-modal-last2">
-              <div className="cancel-btn">cancel</div>
-              <div className="save-btn">Save</div>
+              <div className="cancel-btn" onClick={onClose}>
+                Cancel
+              </div>
+              <div className="save-btn" onClick={handleSaveTask}>
+                Save
+              </div>
             </div>
           </div>
         </form>

@@ -9,21 +9,22 @@ import toast from 'react-hot-toast';
 import Board from '../components/Board';
 import Analytics from '../components/Analytics';
 import Settings from '../components/Settings';
+import LogoutModal from '../modals/LogoutModal';
 
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState('board'); // Track the active tab
+  const [activeTab, setActiveTab] = useState('board');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const navigate = useNavigate();
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
-  };
-  const { logout } = userAuthStore();
-
-  const handleLogout = async () => {
-    logout();
-    localStorage.removeItem('token');
-    toast.success('Logged out successfully');
-    navigate('/login');
   };
 
   return (
@@ -144,9 +145,16 @@ const Dashboard = () => {
               </p>
             </div>
           </div>
-          <div className="logout-sec" onClick={handleLogout}>
-            <img src={Logout} alt="" />
-            <p>Logout</p>
+          <div>
+            <div className="logout-sec" onClick={handleOpenModal}>
+              <img src={Logout} alt="Logout Icon" />
+              <p>Logout</p>
+            </div>
+
+            <LogoutModal
+              isModalOpen={isModalOpen}
+              handleCloseModal={handleCloseModal}
+            />
           </div>
         </div>
       </div>

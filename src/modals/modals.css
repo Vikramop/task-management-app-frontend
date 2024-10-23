@@ -19,6 +19,28 @@
   margin: auto;
   z-index: 1001;
 }
+.logout-modal {
+  background: #fff;
+  position: relative;
+  height: 150px;
+  width: 270px;
+  border: none;
+  border-radius: 20px;
+  padding: 1.5rem 1.5rem;
+  margin: auto;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logout-modal p {
+  font-size: 1rem;
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
 
 .input-container {
   margin-bottom: 16px;
@@ -36,7 +58,7 @@
   color: red;
 }
 
-input[type='text'] {
+input[type='text'].title {
   width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
@@ -46,6 +68,10 @@ input[type='text'] {
 /* ////////////////////////////////////////////// */
 .input-container {
   margin-bottom: 16px;
+}
+
+.priority-options {
+  margin-bottom: 15px;
 }
 
 /* .label {
@@ -119,7 +145,7 @@ input[type='text'] {
 /* assigne */
 
 .asignee-container {
-  margin: 20px 0;
+  margin: 30px 0;
 }
 
 .label-assign {
@@ -128,15 +154,18 @@ input[type='text'] {
   margin-right: 10px;
 }
 
-input[type='email'] {
+input[type='email'].assign {
   width: 80%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  /* margin-bottom: 16px; */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 /* checklist */
+.checklist-container {
+  margin-top: 15px;
+}
+
 .checklist-item {
   position: relative;
 }
@@ -245,9 +274,16 @@ input[type='text'].diff-input:focus {
   justify-content: space-between;
   gap: 12px;
 }
+.cancel-btn-l,
+.logout-btn {
+  padding: 0.5rem 5.5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 5px 0;
+}
 
-.cancel-btn,
 .save-btn,
+.cancel-btn,
 .due-date-btn {
   padding: 0.5rem 2.5rem;
   border-radius: 10px;
@@ -255,11 +291,14 @@ input[type='text'].diff-input:focus {
   font-size: 16px;
   cursor: pointer;
 }
-.cancel-btn {
+.cancel-btn,
+.cancel-btn-l {
   color: #cf3636;
   border: 2px solid #cf3636;
+  background: white;
 }
-.save-btn {
+.save-btn,
+.logout-btn {
   color: white;
   border: 2px solid #17a2b8;
   background: #17a2b8;

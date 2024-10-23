@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import '../modals/modals.css';
 
-const DueDate = () => {
+const DueDate = ({ onDueDateChange }) => {
   const [startDate, setStartDate] = useState(null);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
@@ -12,7 +12,7 @@ const DueDate = () => {
   };
 
   return (
-    <div>
+    <div className="datepicker-wrapper">
       <div className="due-date-btn" onClick={toggleCalendar}>
         {/* {startDate
           ? `Due Date: ${startDate.toLocaleDateString()}`
@@ -24,12 +24,13 @@ const DueDate = () => {
           selected={startDate}
           onChange={(date) => {
             setStartDate(date);
+            onDueDateChange(date);
             setIsCalendarOpen(false);
           }}
           className="custom-datepicker"
           onClickOutside={() => setIsCalendarOpen(false)} // Close on click outside
           open={isCalendarOpen}
-          showPopperArrow={false} // Hide arrow for better positioning
+          showPopperArrow={false}
         />
       )}
     </div>

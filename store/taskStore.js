@@ -7,24 +7,35 @@ export const userTaskStore = create((set) => ({
   user: null,
   error: null,
 
-  createTask: async (
-    title,
-    category,
-    checklist,
-    dueDate,
-    priority,
-    assignedTo
-  ) => {
+  createTask: async (title, checklist, dueDate, priority, assignedTo) => {
     set({ error: null }); // Reset error state before making the request
     try {
-      const response = await axios.post(`${API_URL}/tasks`, {
-        title,
-        category,
-        checklist,
-        dueDate,
-        priority,
-        assignedTo,
-      });
+      const category = 'To-Do';
+      const token = localStorage.getItem('token');
+
+      console.log('title', title);
+      console.log('checklist', checklist);
+      console.log('dueDate', dueDate);
+      console.log('priority', priority);
+      console.log('assignedTo', assignedTo);
+      console.log('category', category);
+
+      const response = await axios.post(
+        `${API_URL}/`,
+        {
+          title,
+          category,
+          checklist,
+          dueDate,
+          priority,
+          assignedTo,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       console.log('Response:', response); // Log the response for debugging
       set({ task: response.data.task }); // Store the task data in the state
