@@ -9,7 +9,7 @@ export const userTaskStore = create((set) => ({
   error: null,
 
   createTask: async (title, checklist, dueDate, priority, assignedTo) => {
-    set({ error: null }); // Reset error state before making the request
+    set({ error: null });
     try {
       const category = 'To-Do';
       const token = localStorage.getItem('token');
@@ -31,17 +31,18 @@ export const userTaskStore = create((set) => ({
         }
       );
 
-      console.log('Response:', response); // Log the response for debugging
-      set({ task: response.data.task }); // Store the task data in the state
-      return response; // Return the response for any further processing if needed
+      // console.log('Response:', response);
+      set((state) => ({
+        tasks: [...state.tasks, response.data.task],
+      }));
     } catch (error) {
-      set({ error: error.response.data.message || 'Error creating task' }); // Store the error message in state
-      throw error; // Re-throw the error for additional error handling
+      set({ error: error.response.data.message || 'Error creating task' });
+      throw error;
     }
   },
 
   fetchTasks: async () => {
-    set({ error: null }); // Reset error state before making the request
+    set({ error: null });
     try {
       const token = localStorage.getItem('token');
 
@@ -51,10 +52,92 @@ export const userTaskStore = create((set) => ({
         },
       });
 
-      // console.log('Fetched Tasks:', response);
+      // console.log('Fetched Tasks Backen:', response);
       set({ tasks: response.data.tasks });
     } catch (error) {
-      set({ error: error.response.data.message || 'Error fetching tasks' }); // Store the error message in state
+      set({ error: error.response.data.message || 'Error fetching tasks' });
+    }
+  },
+
+  editTask: async (
+    taskId,
+    title,
+    checklist,
+    dueDate,
+    priority,
+    assignedTo,
+    category
+  ) => {
+    set({ error: null });
+    try {
+      const token = localStorage.getItem('token');
+
+      const response = await axios.put(
+        `${API_URL}/${taskId}`,
+        {
+          title,
+          checklist,
+          dueDate,
+          priority,
+          assignedTo,
+          category,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // console.log('Response:', response);
+      await userTaskStore.getState().fetchTasks();
+      set({ task: response.data.task });
+      return response;
+    } catch (error) {
+      set({ error: error.response.data.message || 'Error editing task' });
+      throw error;
+    }
+  },
+
+  shareTask: async (taskId) => {
+    try {
+      const response = await axios.post(`${API_URL}/share/${taskId}`);
+
+      if (response.data.success) {
+        return response.data.link; // Return the shareable link
+      } else {
+        console.error('Failed to share task:', response.data.message);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error sharing task:', error.message);
+      return null;
+    }
+  },
+
+  deleteTask: async (taskId) => {
+    try {
+      const response = await axios.delete(`${API_URL}/${taskId}`);
+
+      if (response.data.success) {
+        // Fetch the updated list of tasks
+        const updatedResponse = await axios.get(`${API_URL}/`);
+        if (updatedResponse.data.success) {
+          return updatedResponse.data.tasks; // Return the updated tasks
+        } else {
+          console.error(
+            'Failed to fetch updated tasks:',
+            updatedResponse.data.message
+          );
+          return null; // Indicate failure to fetch updated tasks
+        }
+      } else {
+        console.error('Failed to delete task:', response.data.message);
+        return null; // Indicate failure to delete
+      }
+    } catch (error) {
+      console.error('Error deleting task:', error.message);
+      return null; // Indicate an error
     }
   },
 }));

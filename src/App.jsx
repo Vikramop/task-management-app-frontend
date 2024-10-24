@@ -6,6 +6,7 @@ import SignIn from './pages/SignIn';
 import LogIn from './pages/LogIn';
 import Dashboard from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
+import TaskView from './components/TaskView';
 
 const App = () => {
   return (
@@ -15,7 +16,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/login" element={<LogIn />} />
-
+          <Route path="/task/:taskId" element={<TaskView />} />
           <Route
             path="/dashboard"
             element={

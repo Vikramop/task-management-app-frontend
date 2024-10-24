@@ -4,27 +4,88 @@ import add from '../assets/add.svg';
 import TaskCard from './TaskCard';
 import CreateTask from '../modals/CreateTask';
 import { userTaskStore } from '../../store/taskStore';
+import toast from 'react-hot-toast';
 
 const ToDo = () => {
-  const { fetchTasks, tasks, error } = userTaskStore();
+  const { fetchTasks, tasks, deleteTask } = userTaskStore();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [deletedTaskId, setDeletedTaskId] = useState(null);
 
   useEffect(() => {
     const getTasks = async () => {
-      await fetchTasks();
-      setLoading(false);
+      setLoading(true);
+      try {
+        await fetchTasks();
+      } finally {
+        setLoading(false);
+      }
     };
 
     getTasks();
-  }, [fetchTasks]);
+  }, [fetchTasks, deletedTaskId]);
 
-  // Monitor tasks for updates
   useEffect(() => {
-    console.log('Tasks updated:', tasks);
+    if (!tasks.length) return;
+
+    const updatedTasks = tasks.map((task) => {
+      if (!task.priority) {
+        return {
+          ...task,
+          priority: calculatePriority(task.dueDate),
+        };
+      }
+      return task;
+    });
+
+    console.log('Updated Tasks with Priority:', updatedTasks);
   }, [tasks]);
+
+  useEffect(() => {
+    const getTasks = async () => {
+      setLoading(true);
+      try {
+        await fetchTasks(); // Fetch updated tasks
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getTasks();
+  }, []);
+
+  const handleDelete = async (taskId) => {
+    const confirmed = window.confirm(
+      'Are you sure you want to delete this task?'
+    );
+    if (confirmed) {
+      await deleteTask(taskId);
+      toast.success('task deleted success');
+      setDeletedTaskId(taskId);
+    } else {
+      toast.error('Failed to delete task.');
+    }
+  };
+
+  const calculatePriority = (dueDate) => {
+    const currentDate = new Date();
+    const taskDueDate = new Date(dueDate);
+
+    const daysLeft = (taskDueDate - currentDate) / (1000 * 60 * 60 * 24);
+
+    if (daysLeft < 0) {
+      return 'high';
+    } else if (daysLeft <= 2) {
+      return 'moderate';
+    } else {
+      return 'low';
+    }
+  };
+
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -42,7 +103,6 @@ const ToDo = () => {
       <div className="task-box-up">
         <p className="task-h">To do</p>
         <div className="create-task">
-          {/* "Add" button triggers the modal */}
           <div onClick={toggleModal}>
             <img src={add} alt="Add task" />
           </div>
@@ -52,27 +112,28 @@ const ToDo = () => {
         </div>
       </div>
 
-      {/* Conditionally render the modal */}
       {isModalOpen && <CreateTask onClose={toggleModal} />}
 
       <div className="task-card-overflow">
         {loading ? (
-          <p>Loading tasks...</p> // Show loading message while fetching
+          <p>Loading tasks...</p>
         ) : tasks.length > 0 ? (
-          tasks.map((task) => (
-            <TaskCard
-              key={task._id} // Use a unique identifier for the key
-              title={task.title}
-              priority={task.priority}
-              assignedTo={task.assignedTo}
-              dueDate={task.dueDate}
-              checklist={task.checklist}
-              isCollapsed={isCollapsed}
-            />
-          ))
-        ) : (
-          <p>No tasks available in To-Do</p> // Message when there are no tasks
-        )}
+          tasks
+            .filter((task) => task.category === 'To-Do')
+            .map((task) => (
+              <TaskCard
+                key={task._id}
+                title={task.title}
+                priority={task.priority}
+                assignedTo={task.assignedTo}
+                dueDate={task.dueDate}
+                checklist={task.checklist}
+                isCollapsed={isCollapsed}
+                task={task}
+                onDelete={handleDelete}
+              />
+            ))
+        ) : null}
       </div>
     </div>
   );

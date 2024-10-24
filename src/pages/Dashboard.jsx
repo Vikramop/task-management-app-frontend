@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { userAuthStore } from '../../store/authStore';
-import { useNavigate } from 'react-router-dom';
 
 import cube from '../assets/cube.png';
 import Logout from '../assets/Logout.png';
 import './dashboard.css';
-import toast from 'react-hot-toast';
 import Board from '../components/Board';
 import Analytics from '../components/Analytics';
 import Settings from '../components/Settings';

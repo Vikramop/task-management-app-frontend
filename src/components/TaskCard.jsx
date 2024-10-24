@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import down from '../assets/down.svg';
 import OptionsMenu from './OptionsMenu';
+import { userTaskStore } from '../../store/taskStore';
+import EditTask from '../modals/EditTask';
+import './task.css';
 
 const TaskCard = ({
   isCollapsed,
@@ -9,10 +12,15 @@ const TaskCard = ({
   priority,
   assignedTo,
   dueDate,
+  task,
   checklist = [],
+  onDelete,
 }) => {
+  const { editTask } = userTaskStore();
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTasks, setSelectedTasks] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (isCollapsed) {
@@ -22,38 +30,49 @@ const TaskCard = ({
 
   const toggleDropdown = () => {
     if (!isCollapsed) {
-      // Only toggle if not collapsed
       setIsOpen((prevState) => !prevState);
     }
   };
 
   const handleCheckboxChange = (item) => {
-    // Toggle the completed status of the item
     const updatedChecklist = checklist.map((checkItem) =>
       checkItem._id === item._id
-        ? { ...checkItem, completed: !checkItem.completed } // Toggle completed status
+        ? { ...checkItem, completed: !checkItem.completed }
         : checkItem
     );
 
-    // Update selected tasks array based on completed status
     setSelectedTasks((prev) =>
       prev.includes(item.text)
         ? prev.filter((task) => task !== item.text)
         : [...prev, item.text]
     );
 
+    // Optionally update checklist state if needed
     // setChecklist(updatedChecklist);
+  };
+
+  const handleCategoryChange = async (newCategory) => {
+    try {
+      await editTask(
+        task._id,
+        title,
+        checklist,
+        dueDate,
+        priority,
+        assignedTo,
+        newCategory
+      );
+    } catch (error) {
+      console.error('Failed to update task category:', error);
+    }
   };
 
   const initials = assignedTo ? assignedTo.substring(0, 2).toUpperCase() : 'NA';
 
-  // Ensure priority has a default value
-  const displayPriority = priority ? priority.toUpperCase() : 'LOW';
-
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate();
-    const month = date.toLocaleString('en-US', { month: 'short' }); // Get abbreviated month (e.g., "Feb")
+    const month = date.toLocaleString('en-US', { month: 'short' });
 
     const getOrdinalSuffix = (day) => {
       if (day > 3 && day < 21) return 'th';
@@ -73,12 +92,6 @@ const TaskCard = ({
     return `${month} ${day}${suffix}`;
   };
 
-  const isPastDueDate = (dateString) => {
-    const currentDate = new Date();
-    const due = new Date(dateString);
-    return due < currentDate;
-  };
-
   const getDotColor = (priority) => {
     if (!priority) return '#ccc';
     const normalizedPriority = priority.toLowerCase().trim();
@@ -92,6 +105,135 @@ const TaskCard = ({
       default:
         return '#63C05B';
     }
+  };
+
+  const backgroundColor =
+    task && task.category === 'Done'
+      ? '#63C05B'
+      : priority && priority.toLowerCase() === 'high'
+      ? '#CF3636'
+      : '';
+
+  const textColor =
+    task && task.category === 'Done'
+      ? '#fff' // Adjust text color if needed for 'Done' category
+      : priority && priority.toLowerCase() === 'high'
+      ? '#fff'
+      : '';
+
+  const renderCategoryButtons = () => {
+    if (!task || !task.category) {
+      console.error('Invalid task:', task);
+      return null;
+    }
+
+    const category = task.category || 'To-Do';
+
+    switch (category) {
+      case 'To-Do':
+        return (
+          <>
+            <div
+              className="task-card-priority"
+              onClick={() => handleCategoryChange('In Progress')}
+            >
+              <p>PROGRESS</p>
+            </div>
+            <div
+              className="task-card-priority"
+              onClick={() => handleCategoryChange('Done')}
+            >
+              <p>DONE</p>
+            </div>
+            <div
+              className="task-card-priority"
+              onClick={() => handleCategoryChange('Backlog')}
+            >
+              <p>BACKLOG</p>
+            </div>
+          </>
+        );
+
+      case 'In Progress':
+        return (
+          <>
+            <div
+              className="task-card-priority"
+              onClick={() => handleCategoryChange('To-Do')}
+            >
+              <p>TO DO</p>
+            </div>
+            <div
+              className="task-card-priority"
+              onClick={() => handleCategoryChange('Backlog')}
+            >
+              <p>BACKLOG</p>
+            </div>
+            <div
+              className="task-card-priority"
+              onClick={() => handleCategoryChange('Done')}
+            >
+              <p>DONE</p>
+            </div>
+          </>
+        );
+
+      case 'Done':
+        return (
+          <>
+            <div
+              className="task-card-priority"
+              onClick={() => handleCategoryChange('To-Do')}
+            >
+              <p>TO DO</p>
+            </div>
+            <div
+              className="task-card-priority"
+              onClick={() => handleCategoryChange('Backlog')}
+            >
+              <p>BACKLOG</p>
+            </div>
+
+            <div
+              className="task-card-priority"
+              onClick={() => handleCategoryChange('In Progress')}
+            >
+              <p>IN PROGRESS</p>
+            </div>
+          </>
+        );
+
+      case 'Backlog':
+        return (
+          <>
+            <div
+              className="task-card-priority"
+              onClick={() => handleCategoryChange('To-Do')}
+            >
+              <p>TO DO</p>
+            </div>
+            <div
+              className="task-card-priority"
+              onClick={() => handleCategoryChange('In Progress')}
+            >
+              <p>PROGRESS</p>
+            </div>
+            <div
+              className="task-card-priority"
+              onClick={() => handleCategoryChange('Done')}
+            >
+              <p>DONE</p>
+            </div>
+          </>
+        );
+
+      default:
+        return null;
+    }
+  };
+
+  const handleDelete = async () => {
+    await onDelete(task._id); // Call the delete function passed from the parent
   };
 
   return (
@@ -109,7 +251,11 @@ const TaskCard = ({
           </p>
           <span className="task-card-assigne">{initials}</span>
         </div>
-        <OptionsMenu />
+        <OptionsMenu
+          task={task}
+          onEdit={() => setIsEditing(true)}
+          onDelete={handleDelete}
+        />{' '}
       </div>
       <p className="task-card-h">{title}</p>
 
@@ -120,7 +266,7 @@ const TaskCard = ({
           <button className="dropdown-button">
             <img
               className={`arrow ${isOpen ? 'up' : 'down'}`}
-              src={isOpen ? down : down}
+              src={down}
               alt="Toggle dropdown"
             />
           </button>
@@ -132,9 +278,7 @@ const TaskCard = ({
               <label className="option" key={index}>
                 <input
                   type="checkbox"
-                  // The checkbox is checked based on item.completed
                   checked={item.completed}
-                  // Handle checkbox change here, you can pass the entire item or item._id
                   onChange={() => handleCheckboxChange(item)}
                 />
                 <span
@@ -151,25 +295,17 @@ const TaskCard = ({
       <div className="task-card-lower">
         <div
           className="task-card-due"
-          style={{
-            backgroundColor: isPastDueDate(dueDate) ? '#CF3636' : '',
-            color: isPastDueDate(dueDate) ? '#fff' : '',
-          }}
+          style={{ backgroundColor, color: textColor }}
         >
           <p>{formatDate(dueDate)}</p>
         </div>
-        <div className="task-card-priorities">
-          <div className="task-card-priority">
-            <p>BACKLOG</p>
-          </div>
-          <div className="task-card-priority">
-            <p>PROGRESS</p>
-          </div>
-          <div className="task-card-priority">
-            <p>DONE</p>
-          </div>
-        </div>
+        <div className="task-card-priorities">{renderCategoryButtons()}</div>
       </div>
+
+      {/* Render EditTask Card if Editing */}
+      {isEditing && (
+        <EditTask task={task} onClose={() => setIsEditing(false)} />
+      )}
     </div>
   );
 };

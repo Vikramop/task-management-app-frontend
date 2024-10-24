@@ -1,15 +1,33 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import people from '../assets/2pep.png';
 import './style.css';
 import Task from './Task';
+import { userAuthStore } from '../../store/authStore';
 
 const Board = () => {
+  const { user, fetchUser } = userAuthStore();
+
   const [selectedFilter, setSelectedFilter] = useState('This Week'); // Default to "This Week"
 
   const handleFilterChange = (event) => {
     setSelectedFilter(event.target.value);
   };
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        await fetchUser();
+        console.log('userr', user);
+      } catch (err) {
+        console.error('Error fetching user data:', err.message);
+      }
+    };
+
+    getUserData();
+  }, [fetchUser]);
+
+  const name = user.name || '';
 
   const formatDate = (date) => {
     const day = date.getDate();
@@ -38,7 +56,7 @@ const Board = () => {
   return (
     <div className="board-contianer">
       <div className="top">
-        <p className="board-h">Welcome! Kumar</p>
+        <p className="board-h">Welcome! {name}</p>
         <p className="today-date">{formattedDate}</p>
       </div>
       <div className="top2">

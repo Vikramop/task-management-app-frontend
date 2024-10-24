@@ -148,6 +148,7 @@
   border: none;
   border-radius: 10px;
   color: #5a5a5a;
+  cursor: pointer;
 }
 
 /* checklist */
