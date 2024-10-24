@@ -3,12 +3,17 @@ import React, { useEffect, useState } from 'react';
 import down from '../assets/down.svg';
 import OptionsMenu from './OptionsMenu';
 
-const TaskCard = ({ isCollapsed }) => {
+const TaskCard = ({
+  isCollapsed,
+  title,
+  priority,
+  assignedTo,
+  dueDate,
+  checklist = [],
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedTasks, setSelectedTasks] = useState([]);
-  const options = ['Task 1', 'Task 2', 'Task 3'];
 
-  // Effect to handle collapsing and opening states
   useEffect(() => {
     if (isCollapsed) {
       setIsOpen(false);
@@ -22,11 +27,70 @@ const TaskCard = ({ isCollapsed }) => {
     }
   };
 
-  const handleCheckboxChange = (option) => {
-    if (selectedTasks.includes(option)) {
-      setSelectedTasks(selectedTasks.filter((task) => task !== option));
-    } else {
-      setSelectedTasks([...selectedTasks, option]);
+  const handleCheckboxChange = (item) => {
+    // Toggle the completed status of the item
+    const updatedChecklist = checklist.map((checkItem) =>
+      checkItem._id === item._id
+        ? { ...checkItem, completed: !checkItem.completed } // Toggle completed status
+        : checkItem
+    );
+
+    // Update selected tasks array based on completed status
+    setSelectedTasks((prev) =>
+      prev.includes(item.text)
+        ? prev.filter((task) => task !== item.text)
+        : [...prev, item.text]
+    );
+
+    // setChecklist(updatedChecklist);
+  };
+
+  const initials = assignedTo ? assignedTo.substring(0, 2).toUpperCase() : 'NA';
+
+  // Ensure priority has a default value
+  const displayPriority = priority ? priority.toUpperCase() : 'LOW';
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString('en-US', { month: 'short' }); // Get abbreviated month (e.g., "Feb")
+
+    const getOrdinalSuffix = (day) => {
+      if (day > 3 && day < 21) return 'th';
+      switch (day % 10) {
+        case 1:
+          return 'st';
+        case 2:
+          return 'nd';
+        case 3:
+          return 'rd';
+        default:
+          return 'th';
+      }
+    };
+
+    const suffix = getOrdinalSuffix(day);
+    return `${month} ${day}${suffix}`;
+  };
+
+  const isPastDueDate = (dateString) => {
+    const currentDate = new Date();
+    const due = new Date(dateString);
+    return due < currentDate;
+  };
+
+  const getDotColor = (priority) => {
+    if (!priority) return '#ccc';
+    const normalizedPriority = priority.toLowerCase().trim();
+    switch (normalizedPriority) {
+      case 'low':
+        return '#63C05B';
+      case 'moderate':
+        return '#18B0FF';
+      case 'high':
+        return '#FF2473';
+      default:
+        return '#63C05B';
     }
   };
 
@@ -34,18 +98,25 @@ const TaskCard = ({ isCollapsed }) => {
     <div className="task-card">
       <div className="task-card-upper">
         <div className="task-category-wrapper">
-          <span className="task-card-dot"></span>
-          <p className="task-card-priority-h">LOW PRIORITY</p>
-          <span className="task-card-assigne">VK</span>
+          <span
+            className="task-card-dot"
+            style={{ backgroundColor: getDotColor(priority) }}
+          ></span>
+          <p className="task-card-priority-h">
+            {priority
+              ? priority.toUpperCase() + ' PRIORITY'
+              : 'PRIORITY UNKNOWN'}
+          </p>
+          <span className="task-card-assigne">{initials}</span>
         </div>
         <OptionsMenu />
       </div>
-      <p className="task-card-h">Hero section</p>
+      <p className="task-card-h">{title}</p>
 
       {/* Checklist Dropdown */}
       <div className="dropdown">
         <div className="checklist" onClick={toggleDropdown}>
-          Checklist ({selectedTasks.length}/{options.length})
+          Checklist ({selectedTasks.length}/{checklist.length})
           <button className="dropdown-button">
             <img
               className={`arrow ${isOpen ? 'up' : 'down'}`}
@@ -57,19 +128,19 @@ const TaskCard = ({ isCollapsed }) => {
 
         {isOpen && (
           <div className="options">
-            {options.map((option) => (
-              <label className="option" key={option}>
+            {checklist.map((item, index) => (
+              <label className="option" key={index}>
                 <input
                   type="checkbox"
-                  checked={selectedTasks.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
+                  // The checkbox is checked based on item.completed
+                  checked={item.completed}
+                  // Handle checkbox change here, you can pass the entire item or item._id
+                  onChange={() => handleCheckboxChange(item)}
                 />
                 <span
-                  className={`checkbox ${
-                    selectedTasks.includes(option) ? 'checked' : ''
-                  }`}
+                  className={`checkbox ${item.completed ? 'checked' : ''}`}
                 ></span>
-                <p>{option}</p>
+                <p>{item.text}</p>
               </label>
             ))}
           </div>
@@ -78,8 +149,14 @@ const TaskCard = ({ isCollapsed }) => {
 
       {/* Task Card Lower Section */}
       <div className="task-card-lower">
-        <div className="task-card-due">
-          <p>Feb 10th</p>
+        <div
+          className="task-card-due"
+          style={{
+            backgroundColor: isPastDueDate(dueDate) ? '#CF3636' : '',
+            color: isPastDueDate(dueDate) ? '#fff' : '',
+          }}
+        >
+          <p>{formatDate(dueDate)}</p>
         </div>
         <div className="task-card-priorities">
           <div className="task-card-priority">

@@ -5,6 +5,7 @@ const API_URL = 'http://localhost:5000/api/task';
 
 export const userTaskStore = create((set) => ({
   user: null,
+  tasks: [],
   error: null,
 
   createTask: async (title, checklist, dueDate, priority, assignedTo) => {
@@ -12,13 +13,6 @@ export const userTaskStore = create((set) => ({
     try {
       const category = 'To-Do';
       const token = localStorage.getItem('token');
-
-      console.log('title', title);
-      console.log('checklist', checklist);
-      console.log('dueDate', dueDate);
-      console.log('priority', priority);
-      console.log('assignedTo', assignedTo);
-      console.log('category', category);
 
       const response = await axios.post(
         `${API_URL}/`,
@@ -43,6 +37,24 @@ export const userTaskStore = create((set) => ({
     } catch (error) {
       set({ error: error.response.data.message || 'Error creating task' }); // Store the error message in state
       throw error; // Re-throw the error for additional error handling
+    }
+  },
+
+  fetchTasks: async () => {
+    set({ error: null }); // Reset error state before making the request
+    try {
+      const token = localStorage.getItem('token');
+
+      const response = await axios.get(API_URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // console.log('Fetched Tasks:', response);
+      set({ tasks: response.data.tasks });
+    } catch (error) {
+      set({ error: error.response.data.message || 'Error fetching tasks' }); // Store the error message in state
     }
   },
 }));

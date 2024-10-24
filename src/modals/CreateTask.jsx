@@ -168,7 +168,6 @@ const CreateTask = ({ onClose }) => {
           {/* Last Section */}
           <div className="task-modal-last">
             <DueDate onDueDateChange={setDueDate} />{' '}
-            {/* Passing state to DueDate component */}
             <div className="task-modal-last2">
               <div className="cancel-btn" onClick={onClose}>
                 Cancel

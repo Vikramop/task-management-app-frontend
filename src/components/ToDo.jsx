@@ -3,11 +3,28 @@ import collapse from '../assets/collapse.png';
 import add from '../assets/add.svg';
 import TaskCard from './TaskCard';
 import CreateTask from '../modals/CreateTask';
+import { userTaskStore } from '../../store/taskStore';
 
 const ToDo = () => {
+  const { fetchTasks, tasks, error } = userTaskStore();
+
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const getTasks = async () => {
+      await fetchTasks();
+      setLoading(false);
+    };
+
+    getTasks();
+  }, [fetchTasks]);
+
+  // Monitor tasks for updates
+  useEffect(() => {
+    console.log('Tasks updated:', tasks);
+  }, [tasks]);
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -39,8 +56,23 @@ const ToDo = () => {
       {isModalOpen && <CreateTask onClose={toggleModal} />}
 
       <div className="task-card-overflow">
-        <TaskCard isCollapsed={isCollapsed} />
-        <TaskCard isCollapsed={isCollapsed} />
+        {loading ? (
+          <p>Loading tasks...</p> // Show loading message while fetching
+        ) : tasks.length > 0 ? (
+          tasks.map((task) => (
+            <TaskCard
+              key={task._id} // Use a unique identifier for the key
+              title={task.title}
+              priority={task.priority}
+              assignedTo={task.assignedTo}
+              dueDate={task.dueDate}
+              checklist={task.checklist}
+              isCollapsed={isCollapsed}
+            />
+          ))
+        ) : (
+          <p>No tasks available in To-Do</p> // Message when there are no tasks
+        )}
       </div>
     </div>
   );
