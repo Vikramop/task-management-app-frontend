@@ -27,7 +27,7 @@ const Board = () => {
     getUserData();
   }, [fetchUser]);
 
-  const name = user.name || '';
+  const name = user ? user.name : '';
 
   const formatDate = (date) => {
     const day = date.getDate();

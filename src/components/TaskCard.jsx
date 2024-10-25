@@ -19,8 +19,11 @@ const TaskCard = ({
   const { editTask } = userTaskStore();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedTasks, setSelectedTasks] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [checklistState, setChecklistState] = useState(checklist);
+  const [selectedTasks, setSelectedTasks] = useState(
+    checklist.filter((item) => item.completed).map((item) => item.text)
+  );
 
   useEffect(() => {
     if (isCollapsed) {
@@ -35,20 +38,29 @@ const TaskCard = ({
   };
 
   const handleCheckboxChange = (item) => {
-    const updatedChecklist = checklist.map((checkItem) =>
+    const updatedChecklist = checklistState.map((checkItem) =>
       checkItem._id === item._id
         ? { ...checkItem, completed: !checkItem.completed }
         : checkItem
     );
 
-    setSelectedTasks((prev) =>
-      prev.includes(item.text)
-        ? prev.filter((task) => task !== item.text)
-        : [...prev, item.text]
+    setChecklistState(updatedChecklist);
+
+    // Update selectedTasks for UI count
+    setSelectedTasks(
+      updatedChecklist.filter((task) => task.completed).map((task) => task.text)
     );
 
-    // Optionally update checklist state if needed
-    // setChecklist(updatedChecklist);
+    // Optionally, persist updated checklist to the server
+    editTask(
+      task._id,
+      title,
+      updatedChecklist,
+      dueDate,
+      priority,
+      assignedTo,
+      task.category
+    );
   };
 
   const handleCategoryChange = async (newCategory) => {
@@ -56,7 +68,7 @@ const TaskCard = ({
       await editTask(
         task._id,
         title,
-        checklist,
+        checklistState,
         dueDate,
         priority,
         assignedTo,
@@ -262,7 +274,7 @@ const TaskCard = ({
       {/* Checklist Dropdown */}
       <div className="dropdown">
         <div className="checklist" onClick={toggleDropdown}>
-          Checklist ({selectedTasks.length}/{checklist.length})
+          Checklist ({selectedTasks.length}/{checklistState.length})
           <button className="dropdown-button">
             <img
               className={`arrow ${isOpen ? 'up' : 'down'}`}
@@ -274,8 +286,8 @@ const TaskCard = ({
 
         {isOpen && (
           <div className="options">
-            {checklist.map((item, index) => (
-              <label className="option" key={index}>
+            {checklistState.map((item, index) => (
+              <label key={index} className="option">
                 <input
                   type="checkbox"
                   checked={item.completed}

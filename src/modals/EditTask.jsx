@@ -137,7 +137,7 @@ const EditTask = ({ task, onClose }) => {
           {/* Checklist */}
           <div className="checklist-container">
             <label className="label">
-              Checklist ({checklist.filter((task) => task.text).length}/
+              Checklist ({checklist.filter((task) => task.completed).length}/
               {checklist.length})<span className="required">*</span>
             </label>
             <div className="overflow-sec">

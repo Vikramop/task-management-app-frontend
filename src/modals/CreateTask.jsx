@@ -9,7 +9,7 @@ const CreateTask = ({ onClose }) => {
   const { createTask } = userTaskStore();
 
   const [title, setTitle] = useState('');
-  const [selectedPriority, setSelectedPriority] = useState('low');
+  const [selectedPriority, setSelectedPriority] = useState('');
   const [assignee, setAssignee] = useState('');
   const [checklist, setChecklist] = useState([{ text: '', completed: false }]);
   const [dueDate, setDueDate] = useState(null);
@@ -126,7 +126,7 @@ const CreateTask = ({ onClose }) => {
           {/* Checklist */}
           <div className="checklist-container">
             <label className="label">
-              Checklist ({checklist.filter((task) => task.text).length}/
+              Checklist ({checklist.filter((task) => task.completed).length}/
               {checklist.length})<span className="required">*</span>
             </label>
             <div className="overflow-sec">
