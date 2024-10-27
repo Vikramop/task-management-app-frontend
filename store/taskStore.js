@@ -71,6 +71,7 @@ export const userTaskStore = create((set) => ({
     set({ error: null });
     try {
       const token = localStorage.getItem('token');
+      console.log('asigned', assignedTo);
 
       const response = await axios.put(
         `${API_URL}/${taskId}`,

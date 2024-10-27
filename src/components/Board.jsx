@@ -18,7 +18,7 @@ const Board = () => {
     const getUserData = async () => {
       try {
         await fetchUser();
-        console.log('userr', user);
+        // console.log('userr', user);
       } catch (err) {
         console.error('Error fetching user data:', err.message);
       }
@@ -28,6 +28,7 @@ const Board = () => {
   }, [fetchUser]);
 
   const name = user ? user.name : '';
+  // console.log('namma', name);
 
   const formatDate = (date) => {
     const day = date.getDate();
