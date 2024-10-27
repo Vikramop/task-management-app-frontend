@@ -4,11 +4,16 @@ import people from '../assets/2pep.png';
 import './style.css';
 import Task from './Task';
 import { userAuthStore } from '../../store/authStore';
+import AddAssignee from '../modals/AddAssignee';
 
 const Board = () => {
   const { user, fetchUser } = userAuthStore();
 
-  const [selectedFilter, setSelectedFilter] = useState('This Week'); // Default to "This Week"
+  const [selectedFilter, setSelectedFilter] = useState('This Week');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const handleFilterChange = (event) => {
     setSelectedFilter(event.target.value);
@@ -63,7 +68,7 @@ const Board = () => {
       <div className="top2">
         <div className="top2-left">
           <p className="board-sh">Board</p>
-          <div className="add-people">
+          <div onClick={openModal} className="add-people">
             <img src={people} alt="person" />
             <p>Add People</p>
           </div>
@@ -83,7 +88,7 @@ const Board = () => {
           </div>
         </div>
       </div>
-
+      {isModalOpen && <AddAssignee closeModal={closeModal} />}
       {/* Task Section */}
       <div className="task-sec">
         <Task />

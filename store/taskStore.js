@@ -7,10 +7,6 @@ export const userTaskStore = create((set) => ({
   user: null,
   tasks: [],
   error: null,
-  analyticsData: {
-    categorySummary: [],
-    prioritySummary: [],
-  },
 
   createTask: async (title, checklist, dueDate, priority, assignedTo) => {
     set({ error: null });
@@ -163,4 +159,36 @@ export const userTaskStore = create((set) => ({
       });
     }
   },
+
+  addAssignee: async (email) => {
+    set({ error: null });
+    try {
+      const token = localStorage.getItem('token');
+      console.log('email', email);
+
+      const response = await axios.post(
+        `${API_URL}/add`,
+        { email },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log('response', response.data);
+
+      if (response.data.success) {
+        set({
+          success: `${email} added to board`, // Set success message
+          error: null,
+        });
+      } else {
+        set({ error: response.data.message });
+      }
+    } catch (error) {
+      set({ error: error.response.data.message || 'Error adding assignee' });
+    }
+  },
+
+  clearMessages: () => set({ success: null, error: null }),
 }));
