@@ -7,6 +7,10 @@ export const userTaskStore = create((set) => ({
   user: null,
   tasks: [],
   error: null,
+  analyticsData: {
+    categorySummary: [],
+    prioritySummary: [],
+  },
 
   createTask: async (title, checklist, dueDate, priority, assignedTo) => {
     set({ error: null });
@@ -139,6 +143,24 @@ export const userTaskStore = create((set) => ({
     } catch (error) {
       console.error('Error deleting task:', error.message);
       return null; // Indicate an error
+    }
+  },
+
+  fetchAnalytics: async () => {
+    set({ error: null });
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_URL}/analytics`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      set({ analyticsData: response.data.analyticsData });
+      console.log('analytic', response.data.analyticsData);
+    } catch (error) {
+      set({
+        error: error.response?.data?.message || 'Error fetching analytics data',
+      });
     }
   },
 }));

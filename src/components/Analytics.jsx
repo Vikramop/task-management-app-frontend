@@ -1,27 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './style.css';
-import CreateTask from '../modals/CreateTask';
-import LogoutModal from '../modals/LogoutModal';
+import { userTaskStore } from '../../store/taskStore';
 
 const Analytics = () => {
-  const tasksData1 = [
-    { category: 'Backlog Tasks', count: 16 },
-    { category: 'To-do Tasks', count: 14 },
-    { category: 'In-Progress Tasks', count: 3 },
-    { category: 'Completed Tasks', count: 22 },
+  const { analyticsData, fetchAnalytics } = userTaskStore();
+
+  useEffect(() => {
+    fetchAnalytics();
+  }, [fetchAnalytics]);
+
+  const categorySummary = [
+    { category: 'Backlog Tasks', count: analyticsData.backlogTasks },
+    { category: 'To-do Tasks', count: analyticsData.toDoTasks },
+    { category: 'In-Progress Tasks', count: analyticsData.inProgressTasks },
+    { category: 'Completed Tasks', count: analyticsData.completedTasks },
   ];
-  const tasksData2 = [
-    { category: 'Low Priority', count: 16 },
-    { category: 'Moderate Priority', count: 14 },
-    { category: 'High Priority', count: 3 },
-    { category: 'Due Date Tasks', count: 22 },
+
+  const prioritySummary = [
+    { category: 'Low Priority', count: analyticsData.lowPriority },
+    { category: 'Moderate Priority', count: analyticsData.moderatePriority },
+    { category: 'High Priority', count: analyticsData.highPriority },
+    { category: 'Due Date Tasks', count: analyticsData.dueDateTasks },
   ];
   return (
     <div className="setting-contianer">
       <p className="settings-h">Analytics</p>
       <div className="tasks">
         <div className="task-summary">
-          {tasksData1.map((task, index) => (
+          {categorySummary?.map((task, index) => (
             <div key={index} className="task-item">
               <div className="task-category-wrapper">
                 <span className="task-dot"></span>
@@ -32,7 +38,7 @@ const Analytics = () => {
           ))}
         </div>
         <div className="task-summary">
-          {tasksData2.map((task, index) => (
+          {prioritySummary?.map((task, index) => (
             <div key={index} className="task-item">
               <div className="task-category-wrapper">
                 <span className="task-dot"></span>
