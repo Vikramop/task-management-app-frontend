@@ -59,14 +59,10 @@ const ToDo = () => {
   }, []);
 
   const handleDelete = async (taskId) => {
-    const confirmed = window.confirm(
-      'Are you sure you want to delete this task?'
-    );
-    if (confirmed) {
+    try {
       await deleteTask(taskId);
-      toast.success('task deleted success');
       setDeletedTaskId(taskId);
-    } else {
+    } catch (error) {
       toast.error('Failed to delete task.');
     }
   };

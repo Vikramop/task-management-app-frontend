@@ -245,7 +245,7 @@ const TaskCard = ({
   };
 
   const handleDelete = async () => {
-    await onDelete(task._id); // Call the delete function passed from the parent
+    await onDelete(task._id);
   };
 
   return (

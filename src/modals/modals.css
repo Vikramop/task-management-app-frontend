@@ -19,20 +19,139 @@
   margin: auto;
   z-index: 1001;
 }
-.logout-modal {
+
+.del-modal {
+  font-size: 14px;
+  font-weight: 600;
   background: #fff;
-  position: relative;
-  height: 150px;
-  width: 270px;
-  border: none;
-  border-radius: 20px;
-  padding: 1.5rem 1.5rem;
-  margin: auto;
-  z-index: 1001;
+  height: 120px;
+  width: 240px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 1.5rem 1.5rem;
+  border: none;
+  border-radius: 15px;
+  gap: 20px;
+}
+
+.del-modal-butns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.del-btn-y {
+  padding: 0.5rem 4.5rem;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  background: #17a2b8;
+  color: white;
+  border: none;
+}
+
+.del-cancel {
+  padding: 0.5rem 5.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #cf3636;
+  color: #cf3636;
+  background: white;
+}
+
+.logout-modal {
+  background: #fff;
+  height: 150px;
+  width: 270px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 1.5rem;
+  border: none;
+  border-radius: 20px;
+}
+
+.assigne-modal {
+  height: 150px;
+  width: 470px;
+  padding: 1.5rem 1.5rem;
+}
+
+.assigne-modal {
+  background: #fff;
+  position: relative;
+  border: none;
+  border-radius: 20px;
+  margin: auto;
+  z-index: 1001;
+}
+
+input[type='email'].a-people-mail {
+  width: 95%;
+  padding: 8px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  margin: 10px 0;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.a-people-btns {
+  display: flex;
+  gap: 10px;
+}
+.a-people-btn-cancel {
+  padding: 0.5rem 5.5rem;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  border: 1px solid #cf3636;
+  color: #cf3636;
+  background: white;
+}
+.a-people-btn-add {
+  padding: 0.5rem 4.5rem;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  background: #17a2b8;
+  color: white;
+  border: none;
+  margin-top: 9px;
+}
+
+.success-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+}
+
+.success-message p {
+  font-size: 20px;
+  font-weight: 600;
+}
+.success-message button {
+  padding: 0.5rem 6.5rem;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  background: #17a2b8;
+  color: white;
+  border: none;
+  margin-top: 20px;
 }
 
 .logout-modal p {
@@ -274,7 +393,7 @@ input[type='text'].diff-input:focus {
   justify-content: space-between;
   gap: 12px;
 }
-.cancel-btn-l,
+
 .logout-btn {
   padding: 0.5rem 5.5rem;
   border-radius: 10px;
@@ -291,6 +410,25 @@ input[type='text'].diff-input:focus {
   font-size: 16px;
   cursor: pointer;
 }
+
+.cancel-btn-l {
+  padding: 0.5rem 6.2rem;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s;
+}
+
+.cancel-btn-l {
+  color: red;
+}
+
+.cancel-btn-l:hover {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
 .cancel-btn,
 .cancel-btn-l {
   color: #cf3636;
@@ -320,4 +458,12 @@ input[type='text'].custom-datepicker {
   top: 5% !important;
   left: 70% !important;
   z-index: 1000;
+}
+
+/* ////////////////////////////////// */
+/* assigne modal */
+
+.a-people {
+  font-size: 18px;
+  font-weight: 600;
 }

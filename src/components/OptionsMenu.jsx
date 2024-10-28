@@ -3,14 +3,30 @@ import dots from '../assets/3dots.svg';
 import './task.css';
 import { userTaskStore } from '../../store/taskStore';
 import toast from 'react-hot-toast';
+import DeleteModal from '../modals/DeleteModal';
 
 const OptionsMenu = ({ onEdit, task, onDelete }) => {
   const { shareTask } = userTaskStore();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const toggleOptions = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleDeleteClick = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    onDelete();
+    setIsDeleteModalOpen(false);
+    toast.success('Task deleted successfully');
+  };
+
+  const handleCancelDelete = () => {
+    setIsDeleteModalOpen(false);
   };
 
   const handleShare = async () => {
@@ -20,13 +36,10 @@ const OptionsMenu = ({ onEdit, task, onDelete }) => {
       const shareableLink = await shareTask(task._id);
 
       if (shareableLink) {
-        // Copy the link to clipboard
         navigator.clipboard.writeText(shareableLink);
 
-        // Show success toast
         toast.success('Link copied to clipboard!');
       } else {
-        // Show error toast if link is null
         toast.error('Failed to generate the shareable link.');
       }
     } catch (error) {
@@ -47,10 +60,17 @@ const OptionsMenu = ({ onEdit, task, onDelete }) => {
           <div className="option-menu-o" onClick={handleShare}>
             Share
           </div>
-          <div className="option-menu-o delete " onClick={onDelete}>
+          <div className="option-menu-o delete " onClick={handleDeleteClick}>
             Delete
           </div>
         </div>
+      )}
+
+      {isDeleteModalOpen && (
+        <DeleteModal
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
       )}
     </div>
   );

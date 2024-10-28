@@ -13,36 +13,51 @@ const AddAssignee = ({ closeModal }) => {
 
   const handleAddAssignee = async () => {
     if (email) {
-      await addAssignee(email);
-      toast.success('email added');
-      setEmail('');
+      await addAssignee(email); // Try to add the assignee
+
+      if (error) {
+        toast.error(error);
+      } else if (success) {
+        toast.success(success);
+        setEmail('');
+      }
     } else {
       console.error('Please enter a valid email.');
+      toast.error('Please enter a valid email.');
     }
   };
 
   return (
-    <div>
-      {success ? (
-        <div className="success-message">
-          <p>{success}</p>
-          <button onClick={handleOkClick}>OK</button>
-        </div>
-      ) : (
-        // If no success message, show the input form
-        <div>
-          {error && <p className="error-message">{error}</p>}
-          <p>Add people to the board</p>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter assignee email"
-          />
-          <button onClick={handleAddAssignee}>Add</button>
-          <button onClick={closeModal}>Close</button>
-        </div>
-      )}
+    <div className="modal-container">
+      <div className="assigne-modal">
+        {success ? (
+          <div className="success-message">
+            <p>{success}</p>
+            <button onClick={handleOkClick}>Okay, got it!</button>
+          </div>
+        ) : (
+          // If no success message, show the input form
+          <div>
+            <p className="a-people">Add people to the board</p>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter the email"
+              required
+              className="a-people-mail"
+            />
+            <div className="a-people-btns">
+              <button onClick={closeModal} className="a-people-btn-cancel">
+                Cancel
+              </button>
+              <button onClick={handleAddAssignee} className="a-people-btn-add">
+                Add Email
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
