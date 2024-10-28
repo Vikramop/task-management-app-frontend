@@ -9,6 +9,10 @@ const Analytics = () => {
     fetchAnalytics();
   }, [fetchAnalytics]);
 
+  if (!analyticsData) {
+    return <p>Loading analytics...</p>;
+  }
+
   const categorySummary = [
     { category: 'Backlog Tasks', count: analyticsData.backlogTasks },
     { category: 'To-do Tasks', count: analyticsData.toDoTasks },
@@ -23,7 +27,7 @@ const Analytics = () => {
     { category: 'Due Date Tasks', count: analyticsData.dueDateTasks },
   ];
   return (
-    <div className="setting-contianer">
+    <div className="setting-container">
       <p className="settings-h">Analytics</p>
       <div className="tasks">
         <div className="task-summary">

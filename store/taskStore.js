@@ -146,6 +146,7 @@ export const userTaskStore = create((set) => ({
     set({ error: null });
     try {
       const token = localStorage.getItem('token');
+
       const response = await axios.get(`${API_URL}/analytics`, {
         headers: {
           Authorization: `Bearer ${token}`,
