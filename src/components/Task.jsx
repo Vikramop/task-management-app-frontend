@@ -2,7 +2,7 @@ import React from 'react';
 
 import './task.css';
 import Backlog from './Backlog';
-import ToDo from './toDo';
+import ToDo from './ToDo';
 import InProgress from './inProgress';
 import Done from './Done';
 

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/task';
+const API_URL = 'https://task-mangement-app-backend-hl6m.onrender.com/api/task';
 
 export const userTaskStore = create((set) => ({
   user: null,
@@ -71,7 +71,7 @@ export const userTaskStore = create((set) => ({
     set({ error: null });
     try {
       const token = localStorage.getItem('token');
-      console.log('asigned', assignedTo);
+      // console.log('asigned', assignedTo);
 
       const response = await axios.put(
         `${API_URL}/${taskId}`,
@@ -153,7 +153,7 @@ export const userTaskStore = create((set) => ({
         },
       });
       set({ analyticsData: response.data.analyticsData });
-      console.log('analytic', response.data.analyticsData);
+      // console.log('analytic', response.data.analyticsData);
     } catch (error) {
       set({
         error: error.response?.data?.message || 'Error fetching analytics data',
@@ -165,7 +165,7 @@ export const userTaskStore = create((set) => ({
     set({ error: null });
     try {
       const token = localStorage.getItem('token');
-      console.log('email', email);
+      // console.log('email', email);
 
       const response = await axios.post(
         `${API_URL}/add`,
@@ -176,7 +176,7 @@ export const userTaskStore = create((set) => ({
           },
         }
       );
-      console.log('response', response.data);
+      // console.log('response', response.data);
 
       if (response.data.success) {
         set({

@@ -40,7 +40,7 @@ const ToDo = () => {
       return task;
     });
 
-    console.log('Updated Tasks with Priority:', updatedTasks);
+    // console.log('Updated Tasks with Priority:', updatedTasks);
   }, [tasks]);
 
   useEffect(() => {
