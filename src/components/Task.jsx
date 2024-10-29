@@ -6,23 +6,23 @@ import ToDo from './toDo';
 import InProgress from './inProgress';
 import Done from './Done';
 
-const Task = () => {
+const Task = ({ tasks }) => {
   return (
     <div className="task-container">
       <div className="task-box">
-        <Backlog />
+        <Backlog tasks={tasks} />
       </div>
 
       <div className="task-box">
-        <ToDo />
+        <ToDo tasks={tasks} />
       </div>
 
       <div className="task-box">
-        <InProgress />
+        <InProgress tasks={tasks} />
       </div>
 
       <div className="task-box">
-        <Done />
+        <Done tasks={tasks} />
       </div>
     </div>
   );

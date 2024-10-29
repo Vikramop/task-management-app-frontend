@@ -191,5 +191,24 @@ export const userTaskStore = create((set) => ({
     }
   },
 
+  sortTasks: async (filterType) => {
+    set({ error: null });
+    try {
+      const token = localStorage.getItem('token');
+
+      const response = await axios.get(`${API_URL}/sort`, {
+        params: { filter: filterType }, // Pass filter type to the backend
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Assuming the backend returns an object with the sorted tasks by category
+      set({ tasks: response.data.tasks });
+    } catch (error) {
+      set({ error: error.response?.data?.message || 'Error sorting tasks' });
+    }
+  },
+
   clearMessages: () => set({ success: null, error: null }),
 }));

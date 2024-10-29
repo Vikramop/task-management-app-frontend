@@ -5,9 +5,11 @@ import './style.css';
 import Task from './Task';
 import { userAuthStore } from '../../store/authStore';
 import AddAssignee from '../modals/AddAssignee';
+import { userTaskStore } from '../../store/taskStore';
 
 const Board = () => {
   const { user, fetchUser } = userAuthStore();
+  const { sortTasks, tasks } = userTaskStore();
 
   const [selectedFilter, setSelectedFilter] = useState('This Week');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,6 +33,18 @@ const Board = () => {
 
     getUserData();
   }, [fetchUser]);
+
+  useEffect(() => {
+    const fetchSortedTasks = async () => {
+      try {
+        await sortTasks(selectedFilter);
+      } catch (error) {
+        console.error('Error sorting tasks:', error);
+      }
+    };
+
+    fetchSortedTasks();
+  }, [selectedFilter, sortTasks]);
 
   const name = user ? user.name : '';
   // console.log('namma', name);
@@ -91,7 +105,7 @@ const Board = () => {
       {isModalOpen && <AddAssignee closeModal={closeModal} />}
       {/* Task Section */}
       <div className="task-sec">
-        <Task />
+        <Task tasks={tasks} />
       </div>
     </div>
   );
