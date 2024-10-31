@@ -2,6 +2,12 @@
   padding: 30px;
   padding-right: 60px;
 }
+
+.analytics-container {
+  padding: 30px;
+  padding-right: 60px;
+}
+
 .settings-h {
   font-size: 20px;
   font-weight: 700;
@@ -126,7 +132,7 @@
   /* appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none; */
-  padding: 10px;
+  /* padding: 10px; */
   font-size: 16px;
   font-weight: 400;
   border: none;
@@ -155,6 +161,7 @@
 
 .task-sec {
   overflow-x: auto;
+  padding-bottom: 15px;
 }
 
 /* ///////////////////////////////// */
@@ -186,38 +193,59 @@
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+  margin-top: 20px;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 .shimmer-card {
-  width: 250px;
-  background: #f0f0f0;
+  width: 100%;
+  background: #ffffff;
   border-radius: 4px;
-  padding: 16px;
-  overflow: hidden; /* Ensure the shimmer effect doesn't overflow */
+  padding: 10px;
+  overflow: hidden;
 }
 
 .shimmer-thumbnail {
   width: 100%;
-  height: 140px; /* Thumbnail height */
-  background: linear-gradient(90deg, #e0e0e0 0%, #f0f0f0 50%, #e0e0e0 100%);
+  height: 160px;
   border-radius: 4px;
-  animation: shimmer 1.5s infinite; /* Apply shimmer animation */
+  border-radius: 30px;
 }
 
 .shimmer-title {
-  margin-top: 12px;
+  margin-top: 18px;
+  width: 50%;
   height: 20px; /* Title height */
   background: linear-gradient(90deg, #e0e0e0 0%, #f0f0f0 50%, #e0e0e0 100%);
   border-radius: 4px;
-  animation: shimmer 1.5s infinite; /* Apply shimmer animation */
+  animation: shimmer 2.5s infinite; /* Apply shimmer animation */
 }
 
 .shimmer-description {
   margin-top: 8px;
-  height: 14px; /* Description height */
+  height: 50px; /* Description height */
   background: linear-gradient(90deg, #e0e0e0 0%, #f0f0f0 50%, #e0e0e0 100%);
   border-radius: 4px;
-  animation: shimmer 1.5s infinite; /* Apply shimmer animation */
+  animation: shimmer 2.5s infinite; /* Apply shimmer animation */
+}
+
+.shimmer-last {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+.shimmer-lastb {
+  display: flex;
+  gap: 10px;
+}
+
+.shimmer-oval {
+  width: 40px;
+  height: 20px;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #e0e0e0 0%, #f0f0f0 50%, #e0e0e0 100%);
+  animation: shimmer 7.5s infinite;
 }
 
 @keyframes shimmer {

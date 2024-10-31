@@ -248,6 +248,12 @@ const TaskCard = ({
     await onDelete(task._id);
   };
 
+  const truncateTitle = (title, charLimit) => {
+    if (!title) return '';
+    if (title.length <= charLimit) return title;
+    return title.slice(0, charLimit) + '...';
+  };
+
   return (
     <div className="task-card">
       <div className="task-card-upper">
@@ -269,7 +275,9 @@ const TaskCard = ({
           onDelete={handleDelete}
         />{' '}
       </div>
-      <p className="task-card-h">{title}</p>
+      <p className="task-card-h" title={title}>
+        {truncateTitle(title, 45)}
+      </p>
 
       {/* Checklist Dropdown */}
       <div className="dropdown">
@@ -287,7 +295,7 @@ const TaskCard = ({
         {isOpen && (
           <div className="options">
             {checklistState.map((item, index) => (
-              <label key={index} className="option">
+              <label key={index} className="option-v">
                 <input
                   type="checkbox"
                   checked={item.completed}

@@ -27,7 +27,7 @@ const Analytics = () => {
     { category: 'Due Date Tasks', count: analyticsData.dueDateTasks },
   ];
   return (
-    <div className="setting-container">
+    <div className="analytics-container">
       <p className="settings-h">Analytics</p>
       <div className="tasks">
         <div className="task-summary">

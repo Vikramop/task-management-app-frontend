@@ -10,6 +10,7 @@ const LogoutModal = ({ isModalOpen, handleCloseModal }) => {
   const handleLogout = async () => {
     logout();
     localStorage.removeItem('token');
+    localStorage.removeItem('activeTab');
     toast.success('Logged out successfully');
     navigate('/login');
   };

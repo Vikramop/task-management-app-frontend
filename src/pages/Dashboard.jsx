@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import cube from '../assets/cube.png';
 import Logout from '../assets/Logout.png';
@@ -12,6 +12,13 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('board');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    const storedTab = localStorage.getItem('activeTab');
+    if (storedTab) {
+      setActiveTab(storedTab);
+    }
+  }, []);
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -22,6 +29,7 @@ const Dashboard = () => {
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
+    localStorage.setItem('activeTab', tabName);
   };
 
   return (

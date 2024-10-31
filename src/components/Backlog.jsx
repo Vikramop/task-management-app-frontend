@@ -3,6 +3,7 @@ import collapse from '../assets/collapse.png';
 import TaskCard from './TaskCard';
 import { userTaskStore } from './../../store/taskStore';
 import toast from 'react-hot-toast';
+import Shimmer from './Shimmer';
 
 const Backlog = () => {
   const { fetchTasks, tasks, deleteTask } = userTaskStore();
@@ -49,8 +50,9 @@ const Backlog = () => {
       </div>
       <div className="task-card-overflow">
         {loading ? (
-          <p>Loading tasks...</p>
-        ) : tasks.length > 0 ? (
+          <Shimmer />
+        ) : // <p>Loading tasks...</p>
+        tasks.length > 0 ? (
           tasks
             .filter((task) => task.category === 'Backlog')
             .map((task) => (

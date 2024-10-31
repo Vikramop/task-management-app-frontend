@@ -4,19 +4,37 @@ import './style.css';
 const Shimmer = () => {
   return (
     <div className="shimmer-container">
-      {/* Repeat this block for as many shimmer items as you want */}
       <div className="shimmer-card">
-        <div className="shimmer-thumbnail"></div>
-        <div className="shimmer-title"></div>
-        <div className="shimmer-description"></div>
+        <div className="shimmer-thumbnail">
+          <div className="shimmer-title"></div>
+          <div className="shimmer-description"></div>
+          <div className="shimmer-title"></div>
+          <div className="shimmer-last">
+            <div className="shimmer-oval"></div>
+            <div className="shimmer-lastb">
+              <div className="shimmer-oval"></div>
+              <div className="shimmer-oval"></div>
+              <div className="shimmer-oval"></div>
+            </div>
+          </div>
+        </div>
       </div>
-      {/* Add more shimmer cards as needed */}
+
       <div className="shimmer-card">
-        <div className="shimmer-thumbnail"></div>
-        <div className="shimmer-title"></div>
-        <div className="shimmer-description"></div>
+        <div className="shimmer-thumbnail">
+          <div className="shimmer-title"></div>
+          <div className="shimmer-description"></div>
+          <div className="shimmer-title"></div>
+          <div className="shimmer-last">
+            <div className="shimmer-oval"></div>
+            <div className="shimmer-lastb">
+              <div className="shimmer-oval"></div>
+              <div className="shimmer-oval"></div>
+              <div className="shimmer-oval"></div>
+            </div>
+          </div>
+        </div>
       </div>
-      {/* Add more shimmer cards as needed */}
     </div>
   );
 };

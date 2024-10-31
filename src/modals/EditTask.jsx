@@ -143,7 +143,7 @@ const EditTask = ({ task, onClose }) => {
             <div className="overflow-sec">
               {checklist.map((task, index) => (
                 <div key={index} className="checklist-item">
-                  <label className="option">
+                  <label className="option-v">
                     <input
                       type="checkbox"
                       checked={task.completed}

@@ -3,6 +3,7 @@ import collapse from '../assets/collapse.png';
 import TaskCard from './TaskCard';
 import { userTaskStore } from '../../store/taskStore';
 import toast from 'react-hot-toast';
+import Shimmer from './Shimmer';
 
 const Done = () => {
   const { fetchTasks, tasks, deleteTask } = userTaskStore();
@@ -49,7 +50,7 @@ const Done = () => {
       </div>
       <div className="task-card-overflow">
         {loading ? (
-          <p>Loading tasks...</p>
+          <Shimmer />
         ) : tasks.length > 0 ? (
           tasks
             .filter((task) => task.category === 'Done')

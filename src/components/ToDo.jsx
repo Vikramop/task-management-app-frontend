@@ -5,6 +5,7 @@ import TaskCard from './TaskCard';
 import CreateTask from '../modals/CreateTask';
 import { userTaskStore } from '../../store/taskStore';
 import toast from 'react-hot-toast';
+import Shimmer from './Shimmer';
 
 const ToDo = () => {
   const { fetchTasks, tasks, deleteTask } = userTaskStore();
@@ -112,7 +113,7 @@ const ToDo = () => {
 
       <div className="task-card-overflow">
         {loading ? (
-          <p>Loading tasks...</p>
+          <Shimmer />
         ) : tasks.length > 0 ? (
           tasks
             .filter((task) => task.category === 'To-Do')
