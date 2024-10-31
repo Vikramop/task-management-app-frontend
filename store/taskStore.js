@@ -105,6 +105,8 @@ export const userTaskStore = create((set) => ({
     try {
       const response = await axios.post(`${API_URL}/share/${taskId}`);
 
+      console.log('ress', response);
+
       if (response.data.success) {
         return response.data.link; // Return the shareable link
       } else {
