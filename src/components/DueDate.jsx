@@ -14,10 +14,8 @@ const DueDate = ({ onDueDateChange }) => {
   return (
     <div className="datepicker-wrapper">
       <div className="due-date-btn" onClick={toggleCalendar}>
-        {/* {startDate
-          ? `Due Date: ${startDate.toLocaleDateString()}`
-          : 'Select Due Date'} */}
-        Select Due Date
+        {startDate ? ` ${startDate.toLocaleDateString()}` : 'Select Due Date'}
+        {/* Select Due Date */}
       </div>
       {isCalendarOpen && (
         <DatePicker

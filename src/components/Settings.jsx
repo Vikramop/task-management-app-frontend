@@ -6,6 +6,7 @@ import { userAuthStore } from '../../store/authStore.js';
 import './style.css';
 import '../pages/signIn.css';
 import eye from '../assets/eye.png';
+import uneye from '../assets/unhide.png';
 import lock from '../assets/lock.png';
 import maill from '../assets/maill.png';
 import person from '../assets/person.png';
@@ -124,7 +125,10 @@ const Settings = () => {
               className="input-field"
             />
             <span className="icon-right" onClick={togglePasswordVisibility}>
-              <img src={eye} alt="eye" />
+              <img
+                src={showPassword ? uneye : eye}
+                alt={showPassword ? 'Hide password' : 'Show password'}
+              />
             </span>
           </div>
 
@@ -145,7 +149,10 @@ const Settings = () => {
               className="icon-right"
               onClick={toggleConfirmPasswordVisibility}
             >
-              <img src={eye} alt="eye" />
+              <img
+                src={showConfirmPassword ? uneye : eye}
+                alt={showConfirmPassword ? 'Hide password' : 'Show password'}
+              />
             </span>
           </div>
 
