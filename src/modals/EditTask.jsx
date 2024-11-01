@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './modals.css';
 import del from '../assets/del.svg';
 import DueDate from './../components/DueDate';
 import toast from 'react-hot-toast';
 import { userTaskStore } from '../../store/taskStore';
 
-const EditTask = ({ task, onClose }) => {
+const EditTask = ({ task, onClose, onChecklistUpdate }) => {
   const { editTask } = userTaskStore();
 
   const [title, setTitle] = useState(task.title || '');
@@ -16,6 +16,7 @@ const EditTask = ({ task, onClose }) => {
   const [checklist, setChecklist] = useState(
     task.checklist || [{ text: '', completed: false }]
   );
+
   const [dueDate, setDueDate] = useState(task.dueDate || null);
 
   // Handle adding new checklist items
@@ -28,6 +29,7 @@ const EditTask = ({ task, onClose }) => {
     const newChecklist = [...checklist];
     newChecklist[index].text = value;
     setChecklist(newChecklist);
+    onChecklistUpdate(newChecklist);
   };
 
   // Handle checkbox toggle
